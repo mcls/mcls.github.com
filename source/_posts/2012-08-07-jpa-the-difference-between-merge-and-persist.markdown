@@ -3,7 +3,7 @@ layout: post
 title: "JPA: The difference between merge() and persist()"
 date: 2012-08-07 21:30
 comments: true
-categories: 
+categories: [Play, JPA]
 ---
 
 When I started developing in [Play! Framework](http://www.playframework.org/)

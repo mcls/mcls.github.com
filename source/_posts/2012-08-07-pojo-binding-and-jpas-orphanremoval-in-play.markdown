@@ -3,7 +3,7 @@ layout: post
 title: "POJO binding and JPA's orphanRemoval in Play"
 date: 2012-08-07 22:14
 comments: true
-categories: 
+categories: [ Play, JPA ]
 ---
 
 The `orphanRemoval` property allows you to easily manage `OneToMany` and 
