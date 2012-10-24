@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | /mcls]]></title>
+  <link href="http://mcls.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://mcls.github.com/"/>
+  <updated>2012-10-24T22:42:09+02:00</updated>
+  <id>http://mcls.github.com/</id>
+  <author>
+    <name><![CDATA[Maarten Claes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FQL RubyGem]]></title>
+    <link href="http://mcls.github.com/blog/2012/10/24/fql-rubygem/"/>
+    <updated>2012-10-24T21:44:00+02:00</updated>
+    <id>http://mcls.github.com/blog/2012/10/24/fql-rubygem</id>
+    <content type="html"><![CDATA[<p>The Facebook Query Language allows you to write SQL-like queries to fetch data
+from the Graph API. I've written a simple gem named <code>fql</code> to simplify this in
+ruby.</p>
+
+<p>First of all install the gem by adding <code>gem 'fql'</code> to your <code>Gemfile</code>.</p>
+
+<p>Now you can simply use the FQL queries like so:</p>
+
+<p>``` ruby</p>
+
+<pre><code>Fql.execute('SELECT first_name, last_name FROM user WHERE uid = 4')
+</code></pre>
+
+<p>```</p>
+
+<p>And it will return the matching records as an array of hashes:</p>
+
+<p><code>ruby Single query result
+  [{"first_name"=&gt;"Mark", "last_name"=&gt;"Zuckerberg"}]
+</code></p>
+
+<h3>Using an access token</h3>
+
+<p>To access some resources you'll need to have a valid access token.</p>
+
+<p>``` ruby</p>
+
+<pre><code>Fql.execute('SELECT first_name, last_name FROM user WHERE uid = me()', 
+            :access_token =&gt; 'abc1234567')
+</code></pre>
+
+<p>```</p>
+
+<h3>Using a multi-query</h3>
+
+<p>If you want to use multi-queries then just pass in a Hash instead of a string.</p>
+
+<p>``` ruby</p>
+
+<pre><code>Fql.execute({
+  "query1" =&gt; "SELECT uid, rsvp_status FROM event_member WHERE eid = 209798352393506 LIMIT 3",
+  "query2" =&gt; "SELECT name FROM user WHERE uid IN (SELECT uid FROM #query1)"
+}, :access_token =&gt; "abc1234567")
+</code></pre>
+
+<p>```</p>
+
+<p>Note that the result will be a bit different from that of a single query. It
+will still return an array of hashes, but this time the hashes will have a
+<code>name</code> and <code>fql_result_set</code> key. <br/>
+The <code>name</code> is the name of the subquery and <code>fql_result_set</code> will contains the
+results for that particular query.</p>
+
+<p>```ruby Multi-query result example
+  [</p>
+
+<pre><code>{
+  "name" =&gt; "query1", 
+  "fql_result_set" =&gt; [{"uid"=&gt;712638919, "rsvp_status"=&gt;"attending"}, ... ]
+}, 
+{
+  "name"=&gt;"query2", 
+  "fql_result_set"=&gt;[{"name"=&gt;"Srikanth Nagandla"}, ... ]
+}
+</code></pre>
+
+<p>  ]
+```</p>
+
+<p>For more information on how the use FQL you can check out the
+<a href="https://developers.facebook.com/docs/reference/fql/">official developer documentation</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

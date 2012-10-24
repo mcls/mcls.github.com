@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MAMP | /mcls]]></title>
+  <link href="http://mcls.github.com/blog/categories/mamp/atom.xml" rel="self"/>
+  <link href="http://mcls.github.com/"/>
+  <updated>2012-10-24T22:42:09+02:00</updated>
+  <id>http://mcls.github.com/</id>
+  <author>
+    <name><![CDATA[Maarten Claes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PEAR, PHPUnit and MAMP]]></title>
+    <link href="http://mcls.github.com/blog/2012/08/07/pear-phpunit-and-markdown/"/>
+    <updated>2012-08-07T22:30:00+02:00</updated>
+    <id>http://mcls.github.com/blog/2012/08/07/pear-phpunit-and-markdown</id>
+    <content type="html"><![CDATA[<h3>The problem I had</h3>
+
+<p>When I had initially installed PEAR I just used it's suggested paths and didn't
+think it would be any problem. I could install phpunit and use it from the
+command line. But when I wanted to configure NetBeans to use PHPUnit I got the
+following error:</p>
+
+<p><code>Selected PHPUnit (version ?.?.?) is too old, upgrade it if possible (the
+minimum version in 3.3.0).</code></p>
+
+<p>After reading some posts, trying to fix it through editing all the php.ini's,
+reinstalling PHPUnit, ... I still kept on getting errors. Finally I decided to
+take the time to restart from scratch and make sure all php related stuff would
+be kept in the MAMP directories so that in the future problems like this would
+be easier to solve. I removed the old php, phpunit, pear, ... binaries from
+<code>/usr/local/bin</code> and replaced them by symlinks to the ones in the MAMP directory.</p>
+
+<p>This tutorials shows how I installed PEAR and PHPUnit from scratch.</p>
+
+<h3>Installing PEAR for MAMP</h3>
+
+<p><code>
+cd /Applications/MAMP/bin/php/php5.3/
+curl -O http://pear.php.net/go-pear.phar
+./bin/php ./go-pear.phar
+</code></p>
+
+<p>Now pear will suggest a file layout for you, <em>but it will try to put everything
+in your home directory, while most of it should be in your MAMP folder</em>.
+The following is the correct layout:</p>
+
+<p><code>
+ 1. Installation base ($prefix)                   : /Applications/MAMP/bin/php5.3
+ 2. Temporary directory for processing            : /tmp/pear/install
+ 3. Temporary directory for downloads             : /tmp/pear/install
+ 4. Binaries directory                            : /Applications/MAMP/bin/php5.3/bin
+ 5. PHP code directory ($php_dir)                 : /Applications/MAMP/bin/php5.3/lib/php
+ 6. Documentation directory                       : /Applications/MAMP/bin/php5.3/lib/php/doc
+ 7. Data directory                                : /Applications/MAMP/bin/php5.3/lib/php/data
+ 8. User-modifiable configuration files directory : /Applications/MAMP/bin/php5.3/conf
+ 9. Public Web Files directory                    : /Applications/MAMP/htdocs
+10. Tests directory                               : /Applications/MAMP/bin/php5.3/lib/php/tests
+11. Name of configuration file                    : /Users/yourusername/.pearrc
+</code></p>
+
+<p>Of course the <code>php5.3/</code> and <code>username/</code> could be different for you.
+By setting the paths this way all PEAR packages will automatically land inside
+the standard PHP <code>include_path</code> of MAMP.</p>
+
+<p>Now let's go to <code>/usr/local/bin</code> and create a symlink to the pear command in
+your MAMP directory. This is an easy way to make sure it's in you <code>PATH</code>,
+allowing you to be able to just type <code>pear</code> to use it.</p>
+
+<p><code>
+cd /usr/local/bin
+ln -s /Applications/MAMP/bin/php5.3/bin/pear
+</code></p>
+
+<p>If you want to you can repeat this for <code>php</code>, <code>phpunit</code> and the others too.</p>
+
+<h3>Installing PHPUnit</h3>
+
+<p>Now that we have PEAR installed installing PHPUnit is easy.
+<code>
+sudo pear channel-discover pear.phpunit.de
+sudo pear install --alldeps phpunit/PHPUnit
+</code></p>
+
+<p>Starting from PHPUnit 3.6.8 the functionality behind "phpunit --skeleton-class"
+and "phpunit --skeleton-test" is marked as deprecated and it's going to be
+removed in 3.7. So it's best to install <code>phpunit-skelgen</code> too:</p>
+
+<p><code>
+sudo pear install phpunit/PHPUnit_SkeletonGenerator
+</code></p>
+
+<p>Having now installed PEAR and PHPUnit properly, you should be able to easily
+configure NetBeans for use with PHPUnit.</p>
+]]></content>
+  </entry>
+  
+</feed>

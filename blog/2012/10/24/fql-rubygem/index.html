@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FQL RubyGem - /mcls</title>
+  <meta name="author" content="Maarten Claes">
+
+  
+  <meta name="description" content="The Facebook Query Language allows you to write SQL-like queries to fetch data
+from the Graph API. I&#8217;ve written a simple gem named fql to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mcls.github.com/blog/2012/10/24/fql-rubygem/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="/mcls" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20655967-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">/mcls</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mcls.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FQL RubyGem</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-24T21:44:00+02:00" pubdate data-updated="true">Oct 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The Facebook Query Language allows you to write SQL-like queries to fetch data
+from the Graph API. I&#8217;ve written a simple gem named <code>fql</code> to simplify this in
+ruby.</p>
+
+<p>First of all install the gem by adding <code>gem 'fql'</code> to your <code>Gemfile</code>.</p>
+
+<p>Now you can simply use the FQL queries like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fql</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT first_name, last_name FROM user WHERE uid = 4&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And it will return the matching records as an array of hashes:</p>
+
+<figure class='code'><figcaption><span>Single query result</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">[</span><span class="p">{</span><span class="s2">&quot;first_name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Zuckerberg&quot;</span><span class="p">}</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using an access token</h3>
+
+<p>To access some resources you&#8217;ll need to have a valid access token.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fql</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT first_name, last_name FROM user WHERE uid = me()&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="ss">:access_token</span> <span class="o">=&gt;</span> <span class="s1">&#39;abc1234567&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using a multi-query</h3>
+
+<p>If you want to use multi-queries then just pass in a Hash instead of a string.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fql</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span>
+</span><span class='line'>  <span class="s2">&quot;query1&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;SELECT uid, rsvp_status FROM event_member WHERE eid = 209798352393506 LIMIT 3&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;query2&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;SELECT name FROM user WHERE uid IN (SELECT uid FROM #query1)&quot;</span>
+</span><span class='line'><span class="p">},</span> <span class="ss">:access_token</span> <span class="o">=&gt;</span> <span class="s2">&quot;abc1234567&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that the result will be a bit different from that of a single query. It
+will still return an array of hashes, but this time the hashes will have a
+<code>name</code> and <code>fql_result_set</code> key. <br/>
+The <code>name</code> is the name of the subquery and <code>fql_result_set</code> will contains the
+results for that particular query.</p>
+
+<figure class='code'><figcaption><span>Multi-query result example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;query1&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;fql_result_set&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="p">{</span><span class="s2">&quot;uid&quot;</span><span class="o">=&gt;</span><span class="mi">712638919</span><span class="p">,</span> <span class="s2">&quot;rsvp_status&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;attending&quot;</span><span class="p">},</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="o">]</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;query2&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;fql_result_set&quot;</span><span class="o">=&gt;[</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Srikanth Nagandla&quot;</span><span class="p">},</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="o">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more information on how the use FQL you can check out the
+<a href="https://developers.facebook.com/docs/reference/fql/">official developer documentation</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Maarten Claes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-24T21:44:00+02:00" pubdate data-updated="true">Oct 24<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fql/'>FQL</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mcls.github.com/blog/2012/10/24/fql-rubygem/" data-via="maartencls" data-counturl="http://mcls.github.com/blog/2012/10/24/fql-rubygem/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/07/fixing-commits-in-git/" title="Previous Post: Fixing commits in git">&laquo; Fixing commits in git</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/24/fql-rubygem/">FQL RubyGem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/fixing-commits-in-git/">Fixing commits in git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pear-phpunit-and-markdown/">PEAR, PHPUnit and MAMP</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">POJO binding and JPA's orphanRemoval in Play</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/">JPA: The difference between merge() and persist()</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcls">@mcls</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcls',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("maartencls", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/maartencls" class="twitter-follow-button" data-show-count="false">Follow @maartencls</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Maarten Claes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
