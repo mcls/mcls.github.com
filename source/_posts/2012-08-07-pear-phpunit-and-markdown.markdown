@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "PEAR"
+title: "PEAR, PHPUnit and MAMP"
 date: 2012-08-07 22:30
 comments: true
 categories: [ PHP, Unit Testing, PEAR, MAMP ]

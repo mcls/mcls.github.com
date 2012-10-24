@@ -30,7 +30,7 @@ $ git add forgotten-file.txt
 $ git commit --amend -m "Made some changes and added forgotten-file.txt"
 ```
 
-###1 Already pushed the commit?
+### Already pushed the commit?
 
 If you've already pushed your faulty commit then it's also best to first do 
 something like: `git push -f origin HEAD^:master`. Pushing your HEAD at the 
