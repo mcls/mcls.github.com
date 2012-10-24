@@ -1,110 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>/mcls</title>
-  <meta name="author" content="Maarten Claes">
-
-  
-  <meta name="description" content="The Facebook Query Language allows you to write SQL-like queries to fetch data
-from the Graph API. I&#8217;ve written a simple gem named fql to &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://mcls.github.com/mcls/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="/mcls" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-20655967-6']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">/mcls</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:mcls.github.com/mcls" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[/mcls]]></title>
+  <link href="http://mcls.github.com/mcls/atom.xml" rel="self"/>
+  <link href="http://mcls.github.com/mcls/"/>
+  <updated>2012-10-24T22:28:35+02:00</updated>
+  <id>http://mcls.github.com/mcls/</id>
+  <author>
+    <name><![CDATA[Maarten Claes]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/10/24/fql-rubygem/">FQL RubyGem</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-10-24T21:44:00+02:00" pubdate data-updated="true">Oct 24<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The Facebook Query Language allows you to write SQL-like queries to fetch data
+  <entry>
+    <title type="html"><![CDATA[FQL RubyGem]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/10/24/fql-rubygem/"/>
+    <updated>2012-10-24T21:44:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/10/24/fql-rubygem</id>
+    <content type="html"><![CDATA[<p>The Facebook Query Language allows you to write SQL-like queries to fetch data
 from the Graph API. I&#8217;ve written a simple gem named <code>fql</code> to simplify this in
 ruby.</p>
 
@@ -181,42 +95,15 @@ results for that particular query.</p>
 
 <p>For more information on how the use FQL you can check out the
 <a href="https://developers.facebook.com/docs/reference/fql/">official developer documentation</a>.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/07/fixing-commits-in-git/">Fixing Commits in Git</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-07T22:46:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>You can fix your last commit in git by doing <code>git commit --amend</code>. For example,
+  <entry>
+    <title type="html"><![CDATA[Fixing commits in git]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/fixing-commits-in-git/"/>
+    <updated>2012-08-07T22:46:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/fixing-commits-in-git</id>
+    <content type="html"><![CDATA[<p>You can fix your last commit in git by doing <code>git commit --amend</code>. For example,
 if you had a typo in your last commit message you could correct it by doing:</p>
 
 <figure class='code'><figcaption><span>Fixing a typo with &#8211;amend</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -310,42 +197,15 @@ pull &amp; merge just to fix something small like a typo.</p>
 </span><span class='line'>    already been published. <span class="o">(</span>See the <span class="s2">&quot;RECOVERING FROM UPSTREAM REBASE&quot;</span> section in git-rebase<span class="o">(</span>1<span class="o">)</span>.<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/07/pear-phpunit-and-markdown/">PEAR, PHPUnit and MAMP</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-07T22:30:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The problem I had</h3>
+  <entry>
+    <title type="html"><![CDATA[PEAR, PHPUnit and MAMP]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/pear-phpunit-and-markdown/"/>
+    <updated>2012-08-07T22:30:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/pear-phpunit-and-markdown</id>
+    <content type="html"><![CDATA[<h3>The problem I had</h3>
 
 <p>When I had initially installed PEAR I just used it&#8217;s suggested paths and didn&#8217;t
 think it would be any problem. I could install phpunit and use it from the
@@ -438,42 +298,15 @@ removed in 3.7. So it&#8217;s best to install <code>phpunit-skelgen</code> too:<
 
 <p>Having now installed PEAR and PHPUnit properly, you should be able to easily
 configure NetBeans for use with PHPUnit.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">POJO Binding and JPA&#8217;s orphanRemoval in Play</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-07T22:14:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The <code>orphanRemoval</code> property allows you to easily manage <code>OneToMany</code> and
+  <entry>
+    <title type="html"><![CDATA[POJO binding and JPA's orphanRemoval in Play]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/"/>
+    <updated>2012-08-07T22:14:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play</id>
+    <content type="html"><![CDATA[<p>The <code>orphanRemoval</code> property allows you to easily manage <code>OneToMany</code> and
 <code>OneToOne</code> relationships. If a relationship has <code>orphanRemoval</code> set to true,
 then whenever a child is removed from the parent entity it will also be deleted
 from the database.</p>
@@ -558,42 +391,15 @@ it from being assigned a new instance. Here is the fixed <code>Parent</code> mod
 
 
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/">JPA: The Difference Between Merge() and Persist()</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-07T21:30:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When I started developing in <a href="http://www.playframework.org/">Play! Framework</a>
+  <entry>
+    <title type="html"><![CDATA[JPA: The difference between merge() and persist()]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/"/>
+    <updated>2012-08-07T21:30:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/jpa-the-difference-between-merge-and-persist</id>
+    <content type="html"><![CDATA[<p>When I started developing in <a href="http://www.playframework.org/">Play! Framework</a>
 it was my first time developing in Java and using JPA. I got a bit confused when
 I needed to use <code>merge()</code> for the first time so I decided to write a
 bit about it to better my understanding of Play! and JPA.</p>
@@ -688,130 +494,7 @@ on the entity if needed, this is also why the models in Play don&#8217;t have a
 <li><a href="http://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge">Why use persist() over merge()?</a></li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/10/24/fql-rubygem/">FQL RubyGem</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/07/fixing-commits-in-git/">Fixing commits in git</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/07/pear-phpunit-and-markdown/">PEAR, PHPUnit and MAMP</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">POJO binding and JPA&#8217;s orphanRemoval in Play</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/">JPA: The difference between merge() and persist()</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/mcls">@mcls</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'mcls',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("maartencls", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/maartencls" class="twitter-follow-button" data-show-count="false">Follow @maartencls</a>
-  
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Maarten Claes -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

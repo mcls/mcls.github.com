@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JPA | /mcls]]></title>
+  <link href="http://mcls.github.com/mcls/blog/categories/jpa/atom.xml" rel="self"/>
+  <link href="http://mcls.github.com/mcls/"/>
+  <updated>2012-10-24T22:28:35+02:00</updated>
+  <id>http://mcls.github.com/mcls/</id>
+  <author>
+    <name><![CDATA[Maarten Claes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[POJO binding and JPA's orphanRemoval in Play]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/"/>
+    <updated>2012-08-07T22:14:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play</id>
+    <content type="html"><![CDATA[<p>The <code>orphanRemoval</code> property allows you to easily manage <code>OneToMany</code> and
+<code>OneToOne</code> relationships. If a relationship has <code>orphanRemoval</code> set to true,
+then whenever a child is removed from the parent entity it will also be deleted
+from the database.</p>
+
+<p>But when used in combination with
+<a href="http://www.playframework.org/documentation/1.2.4/controllers#pojo">Play's POJO binding</a>,
+it can cause some unexpected errors. Consider the following example:</p>
+
+<p><code>java
+@Entity
+public class Parent extends Model {
+  @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+  List&lt;Child&gt; childs;
+}
+</code></p>
+
+<p>And our Controller:</p>
+
+<p>``` java
+public ParentController extends Controller {
+  public static void update(Parent parent) {</p>
+
+<pre><code>parent.merge();
+parent.save(); 
+render(parent);
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>This will throw the following exception:
+<code>PersistenceException occured : org.hibernate.HibernateException: A collection
+with cascade="all-delete-orphan" was no longer referenced by the owning entity
+instance: models.Parent.childs</code></p>
+
+<h3>The problem</h3>
+
+<p>To make the <code>orphanRemoval</code> work Hibernate has to keep track of the Collection
+that is referencing the childs. When <code>update()</code> is called, the childs List is
+assigned a new instance, this is what causes the <code>PersistenceException</code>.</p>
+
+<h3>The solution</h3>
+
+<p>We can easily solve this by providing a setter for <code>childs</code> which will prevent
+it from being assigned a new instance. Here is the fixed <code>Parent</code> model:</p>
+
+<p>``` java
+@Entity
+public class Parent extends Model {
+  @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+  List<Child> childs;</p>
+
+<p>  public void setChilds(List<Child> newChilds) {</p>
+
+<pre><code>this.childs.clear();
+if (newChilds != null) {
+  this.childs.addAll(newChilds);
+}
+</code></pre>
+
+<p>  }
+}
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JPA: The difference between merge() and persist()]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/"/>
+    <updated>2012-08-07T21:30:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/jpa-the-difference-between-merge-and-persist</id>
+    <content type="html"><![CDATA[<p>When I started developing in <a href="http://www.playframework.org/">Play! Framework</a>
+it was my first time developing in Java and using JPA. I got a bit confused when
+I needed to use <code>merge()</code> for the first time so I decided to write a
+bit about it to better my understanding of Play! and JPA.</p>
+
+<p>Let's look at what the
+<a href="http://docs.oracle.com/javaee/5/api/javax/persistence/EntityManager.html">official EntityManager documentation</a>
+says first.</p>
+
+<blockquote><h4>merge()</h4>
+
+<p><code>&lt;T&gt; T merge(T entity)</code><br/>
+Merge the state of the given entity into the current persistence context.</p>
+
+<h4>persist()</h4>
+
+<p><code>void persist(Object entity)</code><br/>
+Make an entity instance managed and persistent.</p></blockquote>
+
+<h2>The difference</h2>
+
+<p>As the documentation says <code>persist()</code> will make the entity instance managed and
+persistent, while <code>merge()</code> will just merge the state into the current
+persistence context. What this means is that both methods will add the entity
+to the persistence context, but <code>persist()</code> will also make the entity managed
+so that changes after the <code>persist()</code> call will also be persisted, whereas
+<code>merge()</code> will not do this (although it will return a managed entity instance).</p>
+
+<h2>An example in Play! Framework</h2>
+
+<p>This is where I got confused. I thought calling <code>merge()</code> on my model would be
+sufficient, but Play manages JPA a bit differently. In Play! you have to
+<a href="http://www.playframework.org/documentation/1.2.4/jpa#save">explicitly save</a> an
+object using <code>save()</code>. Play does this because it's more intuitive than having
+to call <code>refresh()</code> on entities. The <code>save()</code> method will then call <code>persist()</code>
+on the entity if needed, this is also why the models in Play don't have a
+<code>persist()</code> method.</p>
+
+<p>A very basic example (without validation etc.)</p>
+
+<h4>Controller</h4>
+
+<p>``` java</p>
+
+<pre><code>public class Questions extends Controller {
+
+  public static void update(Question question) {
+    // Suppose the question contains some new answers
+    question.merge();
+    // Save! Otherwise the state of the question entity will be refreshed!
+    question.save();  
+    render(question);
+  }
+
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Question Entity</h4>
+
+<p>``` java</p>
+
+<pre><code>@Entity
+public class Question extends Model {
+
+  @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+  public List&lt;Answer&gt; answers;
+
+  // Other fields...
+}
+</code></pre>
+
+<p>```</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="http://blog.xebia.com/2009/03/23/jpa-implementation-patterns-saving-detached-entities/">JPA implementation patterns: saving (detached) entities</a></li>
+<li><a href="http://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge">Why use persist() over merge()?</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

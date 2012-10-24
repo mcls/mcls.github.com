@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PEAR, PHPUnit and MAMP - /mcls</title>
+  <meta name="author" content="Maarten Claes">
+
+  
+  <meta name="description" content="The problem I had When I had initially installed PEAR I just used it&#8217;s suggested paths and didn&#8217;t
+think it would be any problem. I could &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mcls.github.com/mcls/blog/2012/08/07/pear-phpunit-and-markdown/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="/mcls" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20655967-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">/mcls</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mcls.github.com/mcls" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PEAR, PHPUnit and MAMP</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-07T22:30:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>The problem I had</h3>
+
+<p>When I had initially installed PEAR I just used it&#8217;s suggested paths and didn&#8217;t
+think it would be any problem. I could install phpunit and use it from the
+command line. But when I wanted to configure NetBeans to use PHPUnit I got the
+following error:</p>
+
+<p><code>Selected PHPUnit (version ?.?.?) is too old, upgrade it if possible (the
+minimum version in 3.3.0).</code></p>
+
+<p>After reading some posts, trying to fix it through editing all the php.ini&#8217;s,
+reinstalling PHPUnit, &#8230; I still kept on getting errors. Finally I decided to
+take the time to restart from scratch and make sure all php related stuff would
+be kept in the MAMP directories so that in the future problems like this would
+be easier to solve. I removed the old php, phpunit, pear, &#8230; binaries from
+<code>/usr/local/bin</code> and replaced them by symlinks to the ones in the MAMP directory.</p>
+
+<p>This tutorials shows how I installed PEAR and PHPUnit from scratch.</p>
+
+<h3>Installing PEAR for MAMP</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /Applications/MAMP/bin/php/php5.3/
+</span><span class='line'>curl -O http://pear.php.net/go-pear.phar
+</span><span class='line'>./bin/php ./go-pear.phar </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now pear will suggest a file layout for you, <em>but it will try to put everything
+in your home directory, while most of it should be in your MAMP folder</em>.
+The following is the correct layout:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 1. Installation base ($prefix)                   : /Applications/MAMP/bin/php5.3
+</span><span class='line'> 2. Temporary directory for processing            : /tmp/pear/install
+</span><span class='line'> 3. Temporary directory for downloads             : /tmp/pear/install
+</span><span class='line'> 4. Binaries directory                            : /Applications/MAMP/bin/php5.3/bin
+</span><span class='line'> 5. PHP code directory ($php_dir)                 : /Applications/MAMP/bin/php5.3/lib/php
+</span><span class='line'> 6. Documentation directory                       : /Applications/MAMP/bin/php5.3/lib/php/doc
+</span><span class='line'> 7. Data directory                                : /Applications/MAMP/bin/php5.3/lib/php/data
+</span><span class='line'> 8. User-modifiable configuration files directory : /Applications/MAMP/bin/php5.3/conf
+</span><span class='line'> 9. Public Web Files directory                    : /Applications/MAMP/htdocs
+</span><span class='line'>10. Tests directory                               : /Applications/MAMP/bin/php5.3/lib/php/tests
+</span><span class='line'>11. Name of configuration file                    : /Users/yourusername/.pearrc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course the <code>php5.3/</code> and <code>username/</code> could be different for you.
+By setting the paths this way all PEAR packages will automatically land inside
+the standard PHP <code>include_path</code> of MAMP.</p>
+
+<p>Now let&#8217;s go to <code>/usr/local/bin</code> and create a symlink to the pear command in
+your MAMP directory. This is an easy way to make sure it&#8217;s in you <code>PATH</code>,
+allowing you to be able to just type <code>pear</code> to use it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/bin
+</span><span class='line'>ln -s /Applications/MAMP/bin/php5.3/bin/pear</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to you can repeat this for <code>php</code>, <code>phpunit</code> and the others too.</p>
+
+<h3>Installing PHPUnit</h3>
+
+<p>Now that we have PEAR installed installing PHPUnit is easy.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo pear channel-discover pear.phpunit.de
+</span><span class='line'>sudo pear install --alldeps phpunit/PHPUnit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Starting from PHPUnit 3.6.8 the functionality behind &#8220;phpunit &#8211;skeleton-class&#8221;
+and &#8220;phpunit &#8211;skeleton-test&#8221; is marked as deprecated and it&#8217;s going to be
+removed in 3.7. So it&#8217;s best to install <code>phpunit-skelgen</code> too:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo pear install phpunit/PHPUnit_SkeletonGenerator</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Having now installed PEAR and PHPUnit properly, you should be able to easily
+configure NetBeans for use with PHPUnit.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Maarten Claes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-07T22:30:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mamp/'>MAMP</a>, <a class='category' href='/blog/categories/pear/'>PEAR</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/unit-testing/'>Unit Testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mcls.github.com/mcls/blog/2012/08/07/pear-phpunit-and-markdown/" data-via="maartencls" data-counturl="http://mcls.github.com/mcls/blog/2012/08/07/pear-phpunit-and-markdown/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/" title="Previous Post: POJO binding and JPA's orphanRemoval in Play">&laquo; POJO binding and JPA's orphanRemoval in Play</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/07/fixing-commits-in-git/" title="Next Post: Fixing commits in git">Fixing commits in git &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/24/fql-rubygem/">FQL RubyGem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/fixing-commits-in-git/">Fixing commits in git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pear-phpunit-and-markdown/">PEAR, PHPUnit and MAMP</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">POJO binding and JPA's orphanRemoval in Play</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/">JPA: The difference between merge() and persist()</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcls">@mcls</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcls',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("maartencls", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/maartencls" class="twitter-follow-button" data-show-count="false">Follow @maartencls</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Maarten Claes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

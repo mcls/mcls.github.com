@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | /mcls]]></title>
+  <link href="http://mcls.github.com/mcls/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://mcls.github.com/mcls/"/>
+  <updated>2012-10-24T22:28:35+02:00</updated>
+  <id>http://mcls.github.com/mcls/</id>
+  <author>
+    <name><![CDATA[Maarten Claes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing commits in git]]></title>
+    <link href="http://mcls.github.com/mcls/blog/2012/08/07/fixing-commits-in-git/"/>
+    <updated>2012-08-07T22:46:00+02:00</updated>
+    <id>http://mcls.github.com/mcls/blog/2012/08/07/fixing-commits-in-git</id>
+    <content type="html"><![CDATA[<p>You can fix your last commit in git by doing <code>git commit --amend</code>. For example,
+if you had a typo in your last commit message you could correct it by doing:</p>
+
+<p>``` bash Fixing a typo with --amend
+$ git commit -m "Oops, a typo"
+$ git log --oneline
+9e29e33 Oops, a typo</p>
+
+<p>$ git commit --amend -m "New commit message without typos"
+$ git log --oneline
+aa7faf2 New commit message without typos
+```</p>
+
+<p>The previous commit will be replaced by the new one, which is based on the
+current contents of the index. For clarity, I'll add that the git index is the
+staging area, also known as everything that is currently being tracked by git.
+So if you forgot to add some file to the index in the last commit, you could do:</p>
+
+<p><code>bash Adding a file
+$ git commit -am "Made some changes" # Forgot to add forgotten-file.txt
+$ git add forgotten-file.txt
+$ git commit --amend -m "Made some changes and added forgotten-file.txt"
+</code></p>
+
+<h3>Already pushed the commit?</h3>
+
+<p>If you've already pushed your faulty commit then it's also best to first do
+something like: <code>git push -f origin HEAD^:master</code>. Pushing your HEAD at the
+previous commit and then doing the amend will prevent you from having to do a
+pull &amp; merge just to fix something small like a typo.</p>
+
+<p><code>bash
+$ git commit -am "Typo"
+$ git push
+$ # Realize you had a typo, so push again but send HEAD^ upstream
+$ # ( HEAD^ means the HEAD at the previous commit )
+$ git push -f origin HEAD^:master
+$ git commit --amend -m "Fixed Typo"
+$ git push # No pull or merge needed
+</code></p>
+
+<h4>Documentation</h4>
+
+<p>Lastly here's the <code>--amend</code> option documentation from the <a href="http://linux.die.net/man/1/git-commit">git-commit man page</a>.</p>
+
+<p>``` bash
+--amend</p>
+
+<pre><code>Used to amend the tip of the current branch. Prepare the tree object you would want to replace 
+the latest commit as usual (this includes the usual -i/-o and explicit paths), and the commit 
+log editor is seeded with the commit message from the tip of the current branch. The commit 
+you create replaces the current tip - if it was a merge, it will have the parents of the 
+current tip as parents - so the current top commit is discarded.
+It is a rough equivalent for:
+
+    $ git reset --soft HEAD^
+    $ ... do something else to come up with the right tree ...
+    $ git commit -c ORIG_HEAD
+
+but can be used to amend a merge commit.
+You should understand the implications of rewriting history if you amend a commit that has 
+already been published. (See the "RECOVERING FROM UPSTREAM REBASE" section in git-rebase(1).)
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

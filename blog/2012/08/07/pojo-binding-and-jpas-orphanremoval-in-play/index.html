@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>POJO binding and JPA's orphanRemoval in Play - /mcls</title>
+  <meta name="author" content="Maarten Claes">
+
+  
+  <meta name="description" content="The orphanRemoval property allows you to easily manage OneToMany and
+OneToOne relationships. If a relationship has orphanRemoval set to true,
+then &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="/mcls" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-20655967-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">/mcls</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mcls.github.com/mcls" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">POJO Binding and JPA's orphanRemoval in Play</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-07T22:14:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The <code>orphanRemoval</code> property allows you to easily manage <code>OneToMany</code> and
+<code>OneToOne</code> relationships. If a relationship has <code>orphanRemoval</code> set to true,
+then whenever a child is removed from the parent entity it will also be deleted
+from the database.</p>
+
+<p>But when used in combination with
+<a href="http://www.playframework.org/documentation/1.2.4/controllers#pojo">Play&#8217;s POJO binding</a>,
+it can cause some unexpected errors. Consider the following example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Entity</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parent</span> <span class="kd">extends</span> <span class="n">Model</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">cascade</span><span class="o">=</span><span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">,</span> <span class="n">orphanRemoval</span><span class="o">=</span><span class="kc">true</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Child</span><span class="o">&gt;</span> <span class="n">childs</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And our Controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">ParentController</span> <span class="kd">extends</span> <span class="n">Controller</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">Parent</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">parent</span><span class="o">.</span><span class="na">merge</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">parent</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">render</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will throw the following exception:
+<code>PersistenceException occured : org.hibernate.HibernateException: A collection
+with cascade="all-delete-orphan" was no longer referenced by the owning entity
+instance: models.Parent.childs</code></p>
+
+<h3>The problem</h3>
+
+<p>To make the <code>orphanRemoval</code> work Hibernate has to keep track of the Collection
+that is referencing the childs. When <code>update()</code> is called, the childs List is
+assigned a new instance, this is what causes the <code>PersistenceException</code>.</p>
+
+<h3>The solution</h3>
+
+<p>We can easily solve this by providing a setter for <code>childs</code> which will prevent
+it from being assigned a new instance. Here is the fixed <code>Parent</code> model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Entity</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parent</span> <span class="kd">extends</span> <span class="n">Model</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">cascade</span><span class="o">=</span><span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">,</span> <span class="n">orphanRemoval</span><span class="o">=</span><span class="kc">true</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Child</span><span class="o">&gt;</span> <span class="n">childs</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setChilds</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Child</span><span class="o">&gt;</span> <span class="n">newChilds</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">childs</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">newChilds</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">childs</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">newChilds</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Maarten Claes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-07T22:14:00+02:00" pubdate data-updated="true">Aug 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jpa/'>JPA</a>, <a class='category' href='/blog/categories/play/'>Play</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/" data-via="maartencls" data-counturl="http://mcls.github.com/mcls/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/" title="Previous Post: JPA: The difference between merge() and persist()">&laquo; JPA: The difference between merge() and persist()</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/07/pear-phpunit-and-markdown/" title="Next Post: PEAR, PHPUnit and MAMP">PEAR, PHPUnit and MAMP &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/24/fql-rubygem/">FQL RubyGem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/fixing-commits-in-git/">Fixing commits in git</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pear-phpunit-and-markdown/">PEAR, PHPUnit and MAMP</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/pojo-binding-and-jpas-orphanremoval-in-play/">POJO binding and JPA's orphanRemoval in Play</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/jpa-the-difference-between-merge-and-persist/">JPA: The difference between merge() and persist()</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcls">@mcls</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcls',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("maartencls", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/maartencls" class="twitter-follow-button" data-show-count="false">Follow @maartencls</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Maarten Claes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
